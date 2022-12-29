@@ -1,0 +1,113 @@
+﻿@inject IJsonHelper Json;
+@model List<PolicyModel>
+    @{
+    bool logged = (bool)(ViewData["LoggedIn"]??false);
+    }
+    @if (logged)
+    {
+        <a class="logout-btn" asp-action="Logout" asp-controller="Account">Logout</a>
+    }
+<link rel="stylesheet" href="~/css/site.css">
+@{
+    ViewData["Title"] = "Welcome to PolicyApp";
+}
+<div class="my-container">
+    <label for="">PolicyType:</label>
+    <select name="policy-type" id="PolicyType">
+        <option value="General">---select---</option>
+        <option value="General">General Insurance</option>
+        <option value="Health">Health Insurance</option>
+        <option value="Motorbike">Motorbike Insurance</option>
+        <option value="Medical">Medical Insurance</option>
+    </select>
+    <label for="policy-title">Policy Title: </label>
+    <select name="policy-title" id="policy-dropdown" disabled = true>
+    </select>
+    <hr>
+    <table id="table">
+        <thead>
+            <tr>
+                <th>PolicyId</th>
+                <th>Policy Title</th>
+                <th>Policy Type</th>
+                <th>PremiumAmount</th>
+                <th>Sum Assured</th>
+                <th>Policy Term</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<script>
+    var listOfPolicies = @Html.Raw(Json.Serialize(Model))
+    var PolicyType = document.getElementById('PolicyType');
+    var policyTitle = document.getElementById('policy-dropdown');
+    PolicyType.addEventListener("change", ()=>{
+        policyTitle.textContent = "";
+        var selectedPolicyType = PolicyType.value;
+        let filteredPolicies = [];
+        for(let i = 0; i<listOfPolicies.length;i++){
+            if(listOfPolicies[i].policyType == selectedPolicyType)
+            {
+                filteredPolicies.push(listOfPolicies[0]);
+                var optionEle = document.createElement('option');
+                optionEle.value = listOfPolicies[i].policyTitle;
+                optionEle.innerHTML= listOfPolicies[i].policyTitle; 
+                policyTitle.appendChild(optionEle);
+            }
+        }
+        policyTitle.disabled = false;
+        fillTable();
+    });
+    policyTitle.addEventListener("change",()=>fillTable());
+    var fillTable =()=>{
+        debugger;
+        var selectedtitleName = policyTitle.value;
+        var selectedPolicyType = PolicyType.value;
+        var table = document.getElementById('table');
+        var ele =table.getElementsByTagName('tbody')[0];
+        if(ele!=null){
+                    table.removeChild(ele);
+        }
+        var tbody =  document.createElement('tbody');
+        for(let i = 0 ; i < listOfPolicies.length;i++){
+            if(listOfPolicies[i].policyType == selectedPolicyType && listOfPolicies[i].policyTitle == selectedtitleName){
+                var tr = document.createElement('tr');
+
+                 // id
+                var pidEle = document.createElement('td');
+                 pidEle.innerHTML= listOfPolicies[i].policyId;
+                 tr.appendChild(pidEle);
+
+                 //title
+                 var ptitleEle = document.createElement('td');
+                 ptitleEle.innerHTML= listOfPolicies[i].policyTitle;
+                 tr.appendChild(ptitleEle);
+
+                 //type
+                 var ptypeEle = document.createElement('td');
+                 ptypeEle.innerHTML= listOfPolicies[i].policyId;
+                 tr.appendChild(ptypeEle);
+
+                 //sum
+                 var psumEle = document.createElement('td');
+                 psumEle.innerHTML= listOfPolicies[i].sumAssured;
+                 tr.appendChild(psumEle);
+
+                 //premium
+                 var ppreEle = document.createElement('td');
+                 ppreEle.innerHTML= listOfPolicies[i].premiumAmount;
+                 tr.appendChild(ppreEle);
+
+                 //term
+                 var pterm = document.createElement('td');
+                 pterm.innerHTML = listOfPolicies[i].policyTerm;
+                 tr.appendChild(pterm);
+
+                 tbody.appendChild(tr);
+            }
+        }
+        table.appendChild(tbody);
+    }
+        //alert(listOfPolicies[0].policyId);
+        //alert(JSON.stringify(listOfPolicies));
+</script>

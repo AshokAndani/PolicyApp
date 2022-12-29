@@ -1,0 +1,47 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.my-container{
+  margin: auto;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 15px;
+}
+th{
+  min-width: 130px;
+  text-align: center;
+  border: 0.5px solid black;
+}
+td{
+  border: 0.2px solid black;
+  text-align: center;
+}
+table{
+  margin: auto;
+}
+.logout-btn{
+  position: absolute;
+  right: 10px;top: 15px;
+}
+.login-table{
+  border: none;
+}
+.login-table td{
+  border: none;
+  text-align: left;
+}

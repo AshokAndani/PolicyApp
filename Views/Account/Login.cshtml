@@ -1,0 +1,35 @@
+@model LoginModel;
+
+<h2>Login</h2>
+@{
+    var validation = ViewBag.Validaiton??false;
+    if(!validation){
+    <p style="color:red;">UserName or Password Incorrect..!</p>
+    }
+}
+
+@using(Html.BeginForm("Login","Account",FormMethod.Post)){
+  <div class="login-container">
+    <table class="login-table">
+      <tr>
+        <td><label asp-for="UserName">UserName:</label></td>
+        <td>@Html.EditorFor(x=>x.UserName)<br></td>
+      </tr>
+      <tr>
+        <td><label asp-for="Password">Password:</label></td>
+        <td>@Html.EditorFor(x=>x.Password)</td>
+      </tr>
+      <tr>
+        <td><label asp-for="RememberMe">Remember Me:</label></td>
+        <td>@Html.EditorFor(x=>x.RememberMe)</td>
+      </tr>
+       <tr><td><input type="submit" value="Login"></td>
+       <td><input type="Reset" value="Register"></td>
+       </tr>
+    </table>
+      @* <label asp-for="UserName">UserName:</label>  @Html.EditorFor(x=>x.UserName)<br></br>
+        <label asp-for="Password">Password:</label>  @Html.EditorFor(x=>x.Password)<br/>
+        <label asp-for="RememberMe">Remember Me:</label>@Html.EditorFor(x=>x.RememberMe) *@
+  </div>
+  @* <input type="submit" value="Login"> *@
+}
